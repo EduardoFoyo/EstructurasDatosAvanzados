@@ -107,8 +107,10 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.menuStripMenuGeneral.SuspendLayout();
             this.toolStripMenuIcono.SuspendLayout();
             this.MenuArista.SuspendLayout();
@@ -714,7 +716,9 @@
             this.toolStripLabel1,
             this.toolStripButton6,
             this.toolStripButton8,
-            this.toolStripButton7});
+            this.toolStripButton7,
+            this.toolStripButton10,
+            this.toolStripButton9});
             this.toolStrip1.Location = new System.Drawing.Point(0, 63);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(32, 430);
@@ -768,6 +772,26 @@
             this.toolStripButton7.Size = new System.Drawing.Size(29, 20);
             this.toolStripButton7.Text = "Euler";
             this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
+            // 
+            // toolStripButton9
+            // 
+            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton9.Image")));
+            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton9.Name = "toolStripButton9";
+            this.toolStripButton9.Size = new System.Drawing.Size(29, 20);
+            this.toolStripButton9.Text = "PRIM";
+            this.toolStripButton9.Click += new System.EventHandler(this.toolStripButton9_Click);
+            // 
+            // toolStripButton10
+            // 
+            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton10.Image")));
+            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton10.Name = "toolStripButton10";
+            this.toolStripButton10.Size = new System.Drawing.Size(29, 20);
+            this.toolStripButton10.Text = "Floyd";
+            this.toolStripButton10.Click += new System.EventHandler(this.toolStripButton10_Click);
             // 
             // Editor
             // 
@@ -885,6 +909,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton toolStripButton10;
+        private System.Windows.Forms.ToolStripButton toolStripButton9;
     }
 }
 

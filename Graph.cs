@@ -428,112 +428,6 @@ namespace EditordeGrafos
                 visitados.UnionWith(nodosRecorridos);
                 MessageBox.Show(string.Join(",",lista.ToArray()));
             }
-
-
-            /*
-            Comenté esto para no chingarme tu código :v
-            Igual hay que ver si así lo quiere o no B|
-
-            UnselectAllNodes();
-            recorrido_arista = new List<Edge>();
-            list_nodo = new List<NodeP>();
-            list_arbol_solo = new List<NodeP>();
-            int res = 1;
-            String recorrido = "";
-
-            for (int i = 0; i < this.Count; i++)
-            {
-                if (!this[i].Visited)
-                {
-                    adf_algorithm(this[i], 1, res++, false);
-                }
-            }
-            recorrido = "";
-
-            //for (int j = 1; j < res; j++)
-            //{
-            //    List<Tuple<String, String>> lista = new List<Tuple<string, string>>();
-            //if (recorrido_arista.Count == 0)
-            //{
-            //    lista.Add(new Tuple<string, string>(this[j].Name, null));
-            //    continue;
-            //}
-            /*    foreach (Edge item in recorrido_arista)
-                {
-                    if (item.Destiny.Num_res == j)
-                    {
-                        lista.Add(new Tuple<string, string>(item.Source.Name, item.Destiny.Name));
-                        recorrido = recorrido + " (" + item.Source.Name + "," + item.Destiny.Name + ") ";
-                    }
-                    else
-                    {
-                        lista.Add(new Tuple<string, string>(item.Source.Name, null));
-                    }
-                }
-                recorrido = recorrido + "\n";
-            }
-            int aux = 0;
-            recorrido = "";
-
-            HashSet<String> visitados = new HashSet<string>();
-            
-            for (int i = 0; i < res; i++)
-            {
-                List<Tuple<String, String>> lista = new List<Tuple<string, string>>();
-                foreach (var item in list_arbol_solo)
-                {
-                    if (!visitados.Contains(item.Name))
-                    {
-                        lista.Add(new Tuple<string, string>(item.Name, null));
-                        visitados.Add(item.Name);
-                    }
-                    
-                }
-
-                /*if (this[i].relations.Count == 0 && !visitados.Contains(this[i].Name))
-                {
-                    lista.Add(new Tuple<string, string>(this[i].Name, null));
-                }
-
-                foreach (var item in recorrido_arista)
-                {
-                    visitados.Add(item.Destiny.Name);
-                    if (item.Destiny.Num_res == i)
-                    {
-                        //visitados.Add(item.Source.Name);
-                        visitados.Add(item.Destiny.Name);
-                        lista.Add(new Tuple<string, string>(item.Source.Name, item.Destiny.Name));
-                    }
-
-                }
-
-                //for (int k = 0; k < lista.Count; k++)
-                //{
-                //    for (int j = 0; j < lista.Count; j++)
-                //    {
-                //        if (lista[j].Item1.CompareTo(lista[k].Item1)>0)
-                //        {
-                //            var temp = lista[k];
-                //            lista[k] = lista[j];
-                //            lista[j] = temp;
-                //        }
-                //    }
-                //}
-
-                foreach (var item in lista)
-                {
-                    recorrido += " (" + item.Item1 + "," + item.Item2 + ") ";
-                }
-
-                if (lista.Count > 0)
-                {
-                    recorrido += "\n";
-                }
-
-            }
-
-
-            MessageBox.Show(recorrido);*/
         }
 
         public void adf_algorithm(NodeP node, int rec, int res, Boolean arbol_activo)
@@ -619,7 +513,7 @@ namespace EditordeGrafos
                     continue;
 
                 // Obtiene los nodos recorridos en profundidad.
-                var nodosRecorridos = recorridoAmplitud(nodo, out var lista);
+                var nodosRecorridos = recorridoProfundidad(nodo, out var lista);
 
                 // Elimina del recorrido aquellos nodos que ya estén
                 // en el conjunto de visitados.
@@ -665,40 +559,6 @@ namespace EditordeGrafos
         public void imprimeBosqueAbarcador(int j, string resExperimental)
         {
             String recorrido = "";
-
-            foreach (var item in list_arbol_solo)
-            {
-                recorrido = recorrido + " Arbol" + " =  " + item.Name + "\n";
-            }
-
-            for (int i = 1; i < j; i++)
-            {
-                List<Tuple<String, String>> lista = new List<Tuple<string, string>>();
-
-                foreach (var item in list_bosque_abarcador)
-                {
-                    if (item.Destiny.Num_res == i)
-                    {
-                        lista.Add(new Tuple<string, string>(item.Source.Name, item.Destiny.Name));
-                    }
-                }
-                if (lista.Count > 0)
-                {
-                    recorrido = recorrido + " Arbol" + " =  ";
-                }
-
-                foreach (var item in lista)
-                {
-                    recorrido += " (" + item.Item1 + "," + item.Item2 + ") ";
-                }
-
-                if (lista.Count > 0)
-                {
-                    recorrido += "\n";
-                }
-
-            }
-
 
             if (list_retroceso.Count > 0)
             {
@@ -990,6 +850,43 @@ namespace EditordeGrafos
             }
 
             return Odd;
+        }
+
+        public void prim()
+        {
+            var T = new HashSet<Edge>();
+            var E = new HashSet<Edge>(this.EdgesList);
+            var U = new HashSet<String>();
+            var V = new HashSet<String>();
+            String cad = "";
+
+            foreach (NodeP item in this)
+            {
+                V.Add(item.Name);
+            }
+            U.Add(this[0].Name);
+            while (!U.SetEquals(V))
+            {
+                var temp = new HashSet<String>(V.Except(U));
+                var edges = from edge in E
+                            where U.Contains(edge.Source.Name)
+                            where temp.Contains(edge.Destiny.Name)
+                            where !T.Contains(edge)
+                            orderby edge.Weight ascending
+                            select edge;
+                var arista = edges.First();
+                T.Add(arista);
+                E.Remove(arista);
+                U.Add(arista.Destiny.Name);
+            }
+
+            foreach (var item in T)
+            {
+                cad += "(" + item.Source.Name + ", " + item.Destiny.Name + ")\n";
+                
+            }
+
+            MessageBox.Show(cad);
         }
     }
 }
