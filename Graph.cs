@@ -325,9 +325,115 @@ namespace EditordeGrafos
             return true;
         }
 
+        /**
+         * Realiza un recorrido en profundidad
+         * 
+         */
+        private HashSet<string> recorridoProfundidad(NodeP raiz, out List<string> recorrido)
+        {
+            var visitados = new HashSet<string>();
+            var pila = new Stack<string>();
+            recorrido = new List<string>();
 
+            pila.Push(raiz.Name);
+            
+            while (pila.Count > 0)
+            {
+                // Desencola al nodo padre.
+                var root = pila.Pop();
+
+                // Obtiene el nombre de los nodos adyacentes y filtra aquellos nodos
+                // sin visitar
+                var relaciones = from edge in EdgesList
+                          where edge.Source.Name == root
+                          where !visitados.Contains(edge.Destiny.Name)
+                          orderby edge.Destiny.Name descending
+                          select edge.Destiny.Name;
+
+                // Agrega al recorrido al nodo, en caso de no haber sido visitado.
+                if (!visitados.Contains(root))
+                    recorrido.Add(root);
+
+                // Agrega a los nodos visitados al nodo.
+                visitados.Add(root);
+
+
+                // Agrega todos los nodos relacionados a la cola.
+                relaciones.ToList().ForEach((nodo) => pila.Push(nodo));
+            }
+
+            return visitados;
+        }
+
+        /**
+         * Realiza un recorrido en amplitud
+         */
+        private HashSet<string> recorridoAmplitud(NodeP raiz, out List<string> recorrido)
+        {
+            var visitados = new HashSet<string>();
+            var cola = new Queue<string>();
+            recorrido = new List<string>();
+
+            cola.Enqueue(raiz.Name);
+
+            while (cola.Count > 0)
+            {
+                // Desencola al nodo padre.
+                var root = cola.Dequeue();
+
+                // Obtiene el nombre de los nodos adyacentes y filtra aquellos nodos
+                // sin visitar
+                var relaciones = from edge in EdgesList
+                                 where edge.Source.Name == root
+                                 where !visitados.Contains(edge.Destiny.Name)
+                                 select edge.Destiny.Name;
+
+                // Agrega al recorrido al nodo, en caso de no haber sido visitado.
+                if (!visitados.Contains(root))
+                    recorrido.Add(root);
+
+                // Agrega a los nodos visitados al nodo.
+                visitados.Add(root);
+
+
+                // Agrega todos los nodos relacionados a la cola.
+                relaciones.ToList().ForEach((nodo) => cola.Enqueue(nodo));
+            }
+
+            return visitados;
+        }
+
+        /**
+         * Obtiene el bosquee abarcador por profundidad.
+         */
         public void busquedaProfundidad()
         {
+            // Conjunto, para los nodos que han sido visitados.
+            var visitados = new HashSet<string>();
+
+            foreach (var nodo in this)
+            { 
+                if (visitados.Contains(nodo.Name))
+                    continue;
+
+                // Obtiene los nodos recorridos en profundidad.
+                var nodosRecorridos = recorridoProfundidad(nodo, out var lista);
+
+                // Elimina del recorrido aquellos nodos que ya estén
+                // en el conjunto de visitados.
+                lista.RemoveAll((string nodoRecorrido) => visitados.Contains(nodoRecorrido));
+
+                // Elimina del recorrido aquellos nodos que ya estén
+                // en el conjunto de visitados.
+                visitados.UnionWith(nodosRecorridos);
+                MessageBox.Show(string.Join(",",lista.ToArray()));
+            }
+
+
+            /*
+            Comenté esto para no chingarme tu código :v
+            Igual hay que ver si así lo quiere o no B|
+
             UnselectAllNodes();
             recorrido_arista = new List<Edge>();
             list_nodo = new List<NodeP>();
@@ -366,7 +472,7 @@ namespace EditordeGrafos
                 }
                 recorrido = recorrido + "\n";
             }
-            int aux = 0;*/
+            int aux = 0;
             recorrido = "";
 
             HashSet<String> visitados = new HashSet<string>();
@@ -387,7 +493,7 @@ namespace EditordeGrafos
                 /*if (this[i].relations.Count == 0 && !visitados.Contains(this[i].Name))
                 {
                     lista.Add(new Tuple<string, string>(this[i].Name, null));
-                }*/
+                }
 
                 foreach (var item in recorrido_arista)
                 {
@@ -427,7 +533,7 @@ namespace EditordeGrafos
             }
 
 
-            MessageBox.Show(recorrido);
+            MessageBox.Show(recorrido);*/
         }
 
         public void adf_algorithm(NodeP node, int rec, int res, Boolean arbol_activo)
@@ -496,8 +602,38 @@ namespace EditordeGrafos
 
         }
 
+        /**
+         * Obtiene el bosquee abarcador por amplitud / anchura.
+         */
         public void bpfrecorrido()
         {
+            // Mensaje final:
+            string resultado = "Resultado experimental: \n\n";
+
+            // Conjunto, para los nodos que han sido visitados.
+            var visitados = new HashSet<string>();
+
+            foreach (var nodo in this)
+            {
+                if (visitados.Contains(nodo.Name))
+                    continue;
+
+                // Obtiene los nodos recorridos en profundidad.
+                var nodosRecorridos = recorridoAmplitud(nodo, out var lista);
+
+                // Elimina del recorrido aquellos nodos que ya estén
+                // en el conjunto de visitados.
+                lista.RemoveAll((string nodoRecorrido) => visitados.Contains(nodoRecorrido));
+
+                // Elimina del recorrido aquellos nodos que ya estén
+                // en el conjunto de visitados.
+                visitados.UnionWith(nodosRecorridos);
+
+                resultado += string.Join(",", lista.ToArray()) + "\n";
+            }
+
+            resultado += "Resultado actual de Foyo: \n\n";
+            
             UnselectAllNodes();
             list_avance = new List<Edge>();
             list_retroceso = new List<Edge>();
@@ -523,10 +659,10 @@ namespace EditordeGrafos
                 }
             }
 
-            imprimeBosqueAbarcador(j);
+            imprimeBosqueAbarcador(j, resultado);
         }
 
-        public void imprimeBosqueAbarcador(int j)
+        public void imprimeBosqueAbarcador(int j, string resExperimental)
         {
             String recorrido = "";
 
@@ -591,7 +727,7 @@ namespace EditordeGrafos
                 }
                 recorrido = recorrido + "\n";
             }
-            MessageBox.Show(recorrido);
+            MessageBox.Show(resExperimental + recorrido);
         }
 
         public void bosque_abarcador(NodeP nodo, int rec, int n, Boolean arbol_activo)

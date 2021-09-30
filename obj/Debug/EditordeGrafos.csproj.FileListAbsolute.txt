@@ -444,3 +444,17 @@ C:\Users\Eduardo\Desktop\Estructuras de Datos Avanzados\Avances\Correcicon 2\T5_
 C:\Users\Eduardo\Desktop\Estructuras de Datos Avanzados\Avances\Correcicon 2\T5_Editor_Foyo-correccion\EditordeGrafos\obj\Debug\EditordeGrafos.csproj.CoreCompileInputs.cache
 C:\Users\Eduardo\Desktop\Estructuras de Datos Avanzados\Avances\Correcicon 2\T5_Editor_Foyo-correccion\EditordeGrafos\obj\Debug\Editor De Grafos.exe
 C:\Users\Eduardo\Desktop\Estructuras de Datos Avanzados\Avances\Correcicon 2\T5_Editor_Foyo-correccion\EditordeGrafos\obj\Debug\Editor De Grafos.pdb
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\bin\Debug\Editor De Grafos.exe.config
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\bin\Debug\Editor De Grafos.exe
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\bin\Debug\Editor De Grafos.pdb
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.csprojAssemblyReference.cache
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.AtributosGrafo.resources
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.Editor.resources
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.ConfigNodAri.resources
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.Letra_Numero.resources
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.muestramatriz.resources
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.Properties.Resources.resources
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.csproj.GenerateResource.cache
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\EditordeGrafos.csproj.CoreCompileInputs.cache
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\Editor De Grafos.exe
+C:\Users\jacki\source\repos\EstructurasDatosAvanzados\obj\Debug\Editor De Grafos.pdb
