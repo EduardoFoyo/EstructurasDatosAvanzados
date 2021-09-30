@@ -1042,6 +1042,16 @@ namespace EditordeGrafos
             graph.euler();
         }
 
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            graph.prim();
+        }
+
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
         /*
         private void toolStripButton3_Click(object sender, EventArgs e)
