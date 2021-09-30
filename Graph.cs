@@ -852,32 +852,62 @@ namespace EditordeGrafos
             return Odd;
         }
 
+        /**
+         * Construye el árbol de expansión mínima de Prim.
+         *
+         */
         public void prim()
         {
+            // Conjunto de vértices, que componen al árbol abarcador.
             var T = new HashSet<Edge>();
-            var E = new HashSet<Edge>(this.EdgesList);
-            var U = new HashSet<String>();
-            var V = new HashSet<String>();
-            String cad = "";
 
-            foreach (NodeP item in this)
-            {
-                V.Add(item.Name);
-            }
-            U.Add(this[0].Name);
+            // Conjunto de vértices que son visitados, al construir 
+            // el árbol.
+            var U = new HashSet<string>(){ this[0].Name };
+
+            // Conjunto de vértices del grafo.
+            var V = new HashSet<string>(from node in this select node.Name);
+
+            // Lista de aristas auxiliar (para no alterar las referencias)
+            // que usa el grafo.
+            var E = new List<Edge>(from edge in EdgesList select edge);
+            
+            // Cadena para retornar el resultado.
+            string cad = "";
+
+            // Mientras U != V
             while (!U.SetEquals(V))
             {
-                var temp = new HashSet<String>(V.Except(U));
-                var edges = from edge in E
-                            where U.Contains(edge.Source.Name)
-                            where temp.Contains(edge.Destiny.Name)
-                            where !T.Contains(edge)
+                // Obtiene la arista más corta, tal que su nodo 
+                // origen esté en U y su nodo destino esté en la
+                // substracción de V y U (V - U)
+                var aristas = from edge in E
+                            where U.Contains(edge.Source.Name) 
+                            where V.Except(U).Contains(edge.Destiny.Name) 
                             orderby edge.Weight ascending
                             select edge;
-                var arista = edges.First();
+
+                // Obtiene la arista más corta.
+                var arista = aristas.First();
                 T.Add(arista);
-                E.Remove(arista);
                 U.Add(arista.Destiny.Name);
+
+                // Elimina la arista agregada y asigna el nodo origen<->destino
+                // siguiente
+                E.Remove(arista);
+
+                foreach (var relacion in E)
+                {
+                    // En caso de que el destino, sea el nodo v,
+                    // se asigna al nodo origen el nodo destino 
+                    // y al nodo destino al nodo origen.
+                    if (relacion.Destiny.Name == arista.Destiny.Name)
+                    {
+                        var temporal = relacion.Source;
+                        relacion.Source = relacion.Destiny;
+                        relacion.Destiny = temporal;
+                    }
+                }
             }
 
             foreach (var item in T)
